@@ -2,51 +2,46 @@ import React, {useState} from 'react'
 import {View, Text, StyleSheet, Pressable, TextInput} from 'react-native'
 
 
-export const PAN = ({list, onSubmit, editData}) => {
-    const title = 'create'
-    const [name, setName] = useState('')
-    const [password, setPassword] = useState('')
+export const EditNote = ({onSubmit, editData}) => {
+    const title = 'update'
+    const [name, setName] = useState(editData.name)
+    const [password, setPassword] = useState(editData.password)
 
-    const auto = (list) => {
-        setPassword(list)
+
+    const checkTextInput = () => {
+        if(!name.trim() || !password.trim()) {
+            alert('input fields must not be empty')
+            return;
+        }
+        else {
+            pressHandler()
+        }
     }
 
-
-    // const checkTextInput = () => {
-    //     if(!name.trim() || !password.trim()) {
-    //         alert('input fields must not be empty')
-    //         return;
-    //     }
-    //     else {
-    //         pressHandler()
-    //     }
-    // }
-
     const pressHandler = () => {
-        setName(name)
         onSubmit({name, password})
-        setName('')
-        setPassword('')
+        // setName('')
+        // setPassword('')
     }
 
     return (
         <View>
             <View style={styles.newNote}>
-                <Pressable style={styles.note_btn} onPress={pressHandler}>
+                <Pressable style={styles.note_btn} onPress={checkTextInput}>
                     <Text style={styles.note_btn_text}>
                         {title}
                     </Text>
                 </Pressable>
                 <View>
                     <TextInput style={styles.inp}
-                        placeholder={"название"}
-                        onChangeText={name => setName(name)}
-                        value={name}
+                               placeholder={"название"}
+                               onChangeText={name => setName(name)}
+                               value={name}
                     />
                     <TextInput style={styles.inp}
-                        placeholder={"пароль"}
-                        onChangeText={password => setPassword(password)}
-                        value={password}
+                               placeholder={"пароль"}
+                               onChangeText={password => setPassword(password)}
+                               value={password}
                     />
                 </View>
             </View>

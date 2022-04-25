@@ -1,45 +1,44 @@
 import 'react-native-gesture-handler';
 import React, {useState} from 'react';
-import {View, StyleSheet, Text, FastList} from 'react-native';
+import {View, StyleSheet, Text, FastList, Dimensions} from 'react-native';
 
 import {GPL} from './src/component/GenerationPasswordLabel'
 import {LD} from './src/component/listData'
 import {AN} from './src/component/addNote'
-import {PAN} from './src/component/poleAddNote'
-import {T} from './src/component/test'
+
+
 
 const App = () => {
-
     const [pas, setPas] = useState([]);
 
-
-    const addPas = (vGP) => {
+    const addPas = (pas) => {
         setPas(lastPas => [...lastPas, {
             id: Date.now().toString(),
-            password: vGP,
+            password: pas,
         }])
     }
 
-
     return (
-        <View style={styles.pageContainer}>
-            <GPL onSubmit={addPas}/>
-            <AN />
-            {/*<FastList*/}
-            {/*    data={pas}*/}
-            {/*    renderItem={({item}) => (<LD list={item}/>)}*/}
-            {/*/>*/}
-            <T />
-            {/*<View>*/}
-            {/*    {*/}
-            {/*        pas.map(pas => <LD list={pas} key={pas.id}/>)*/}
-            {/*    }*/}
-            {/*</View>*/}
+        <View style={styles.allApp}>
+            <View style={styles.pageContainer}>
+                <GPL onSubmit={addPas}/>
+                <AN list={pas}/>
+                {/*<View>*/}
+                {/*    {*/}
+                {/*        pas.map(pas => <LD list={pas} key={pas.id}/>)*/}
+                {/*    }*/}
+                {/*</View>*/}
+            </View>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
+    allApp: {
+        backgroundColor: "#000",
+        // height: Dimensions.get('screen').height,
+        height: '100%'
+    },
     pageContainer: {
         marginTop: 100,
         paddingTop: 10,

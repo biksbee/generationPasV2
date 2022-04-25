@@ -1,17 +1,21 @@
 import React, {useState} from 'react'
-import {View, StyleSheet, Text, TextInput, Pressable} from 'react-native'
+import {View, StyleSheet, Text, TextInput, Pressable, Clipboard} from 'react-native'
 
 export const GPL = ({onSubmit}) => {
     const title = 'gen';
     const [value, setValue] = useState('')
 
     const pressHandler = () => {
-        let a = []
-        for (let i = value.length, k = 0; i >= 0; i--, k++) {
+        // Clipboard.setString(value.password);
+        const a = []
+        for (let i = value.length, k=0; i>=0; i--, k++){
             a[k] = value[i]
         }
+        a.toString()
+        alert(a)
+        // a.toString()
+        // setValue()
         onSubmit(a)
-        setValue('')
         //в дальнейшем сюда будет засыпаться измененный пароль
     }
 
