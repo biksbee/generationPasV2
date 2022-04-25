@@ -8,15 +8,13 @@ export const LD = ({list}) => {
     return (
 
         <View style={styles.Container}>
-            {/*<Text style={styles.name}>*/}
-            {/*    {list.id}*/}
-            {/*    /!*{list.name}*!/*/}
-            {/*</Text>*/}
+            <Text style={styles.name}>
+                {list.id}
+            </Text>
             <Text style={styles.password}>
                 {list.password}
             </Text>
         </View>
-
         )
         //вывод данных
 
