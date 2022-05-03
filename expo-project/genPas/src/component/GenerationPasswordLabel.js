@@ -6,16 +6,7 @@ export const GPL = ({onSubmit}) => {
     const [value, setValue] = useState('')
 
     const pressHandler = () => {
-        // Clipboard.setString(value.password);
-        const a = []
-        for (let i = value.length, k=0; i>=0; i--, k++){
-            a[k] = value[i]
-        }
-        a.toString()
-        alert(a)
-        // a.toString()
-        // setValue()
-        onSubmit(a)
+        onSubmit(value)
         //в дальнейшем сюда будет засыпаться измененный пароль
     }
 

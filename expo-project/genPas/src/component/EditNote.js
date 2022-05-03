@@ -2,15 +2,15 @@ import React, {useState} from 'react'
 import {View, Text, StyleSheet, Pressable, TextInput} from 'react-native'
 
 
-export const EditNote = ({onSubmit, editData}) => {
+export const EditNote = ({onSubmit}) => {
     const title = 'update'
-    const [name, setName] = useState(editData.name)
-    const [password, setPassword] = useState(editData.password)
+    const [name, setName] = useState('')
+    const [password, setPassword] = useState('')
 
 
     const checkTextInput = () => {
         if(!name.trim() || !password.trim()) {
-            alert('input fields must not be empty')
+            alert('are you want cansel update?')
             return;
         }
         else {
@@ -20,8 +20,6 @@ export const EditNote = ({onSubmit, editData}) => {
 
     const pressHandler = () => {
         onSubmit({name, password})
-        // setName('')
-        // setPassword('')
     }
 
     return (

@@ -2,28 +2,22 @@ import React, {useState} from 'react'
 import {View, Text, StyleSheet, Pressable, TextInput} from 'react-native'
 
 
-export const PAN = ({list, onSubmit, editData}) => {
+export const PAN = ({onSubmit}) => {
     const title = 'create'
     const [name, setName] = useState('')
     const [password, setPassword] = useState('')
 
-    const auto = (list) => {
-        setPassword(list)
+    const checkTextInput = () => {
+        if(!name.trim() || !password.trim()) {
+            alert('input fields must not be empty')
+            return;
+        }
+        else {
+            pressHandler()
+        }
     }
 
-
-    // const checkTextInput = () => {
-    //     if(!name.trim() || !password.trim()) {
-    //         alert('input fields must not be empty')
-    //         return;
-    //     }
-    //     else {
-    //         pressHandler()
-    //     }
-    // }
-
     const pressHandler = () => {
-        setName(name)
         onSubmit({name, password})
         setName('')
         setPassword('')
@@ -32,7 +26,7 @@ export const PAN = ({list, onSubmit, editData}) => {
     return (
         <View>
             <View style={styles.newNote}>
-                <Pressable style={styles.note_btn} onPress={pressHandler}>
+                <Pressable style={styles.note_btn} onPress={checkTextInput}>
                     <Text style={styles.note_btn_text}>
                         {title}
                     </Text>

@@ -1,13 +1,9 @@
-import React, {useState, useWindowDimensions} from 'react'
+import React, {useState} from 'react'
 import {View, Text, StyleSheet, Pressable, SafeAreaView, FlatList} from 'react-native'
 
 import {PAN} from './poleAddNote'
 import {LD2} from './listData2.0'
 import {EditNote} from './EditNote'
-import {MyIcon} from "./nameList";
-import position from "react-native-web/dist/exports/Touchable/Position";
-import {Icon} from "@rneui/themed";
-
 
 const title1 = 'add element'
 const title2 = 'hide element'
@@ -16,8 +12,10 @@ export const AN = ({list}) => {
     const [editCheck, setEditCheck] = useState(false)
     const [shouldShow, setShouldShow] = useState(false)
     const [value, setValue] = useState([])
+    const [key, setKey] = useState('')
 
     const fadeInElement = () => {
+        alert(list.name)
         setShouldShow(!shouldShow)
     }
     const takeValue = (note) => {
@@ -27,21 +25,24 @@ export const AN = ({list}) => {
             password: note.password
         }, ...lastNote])
     }
+
     const deleteItem = (key) => {
         const itemDel = [...value]
+        // setValue(itemDel.splice(key, 1))
         setValue(itemDel.filter(item => item.id !== key))
     }
-    // const updateValue = (value) => {
-    //     setValue(lastNote => [{
-    //         id: Date.now().toString(),
-    //         name: value.name,
-    //         password: value.password
-    //     }, ...lastNote])
-    // }
 
+    const updateValue = (updateValue) => {
+        deleteItem(key)
+        takeValue(updateValue)
 
-    const sendEditData = (editData) => {
         setEditCheck(!editCheck)
+        setShouldShow(!shouldShow)
+    }
+
+    const sendEditData = (note) => {
+        setKey(note)
+        setEditCheck(true)
     }
 
     return (
@@ -61,7 +62,7 @@ export const AN = ({list}) => {
                     )
                 }
                 {
-                    !editCheck ? (shouldShow ? (<PAN style={styles.pole} list={list} onSubmit={takeValue}/>) : null) : (<EditNote />)
+                    !editCheck ? (shouldShow ? (<PAN style={styles.pole} list={list} onSubmit={takeValue}/>) : null) : (<EditNote note={value.id} onSubmit={updateValue}/>)
                 }
             </View>
             <View>
@@ -72,7 +73,7 @@ export const AN = ({list}) => {
                     keyExtractor={item => item.id}
                     renderItem={({item}) => (
                         // <Text style={styles.i}>{item.name}</Text>
-                        <LD2 list={item} onSubmit={deleteItem} sendEditData={sendEditData} />
+                        <LD2 list={item} onSubmit={deleteItem} send={sendEditData} />
                     )}
                 />
                 {/*{value.map(value => <LD2 list={item} key={value.id}/>)}*/}
