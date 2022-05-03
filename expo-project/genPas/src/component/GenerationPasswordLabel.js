@@ -1,17 +1,12 @@
 import React, {useState} from 'react'
-import {View, StyleSheet, Text, TextInput, Pressable} from 'react-native'
+import {View, StyleSheet, Text, TextInput, Pressable, Clipboard} from 'react-native'
 
 export const GPL = ({onSubmit}) => {
     const title = 'gen';
     const [value, setValue] = useState('')
 
     const pressHandler = () => {
-        let a = []
-        for (let i = value.length, k = 0; i >= 0; i--, k++) {
-            a[k] = value[i]
-        }
-        onSubmit(a)
-        setValue('')
+        onSubmit(value)
         //в дальнейшем сюда будет засыпаться измененный пароль
     }
 
