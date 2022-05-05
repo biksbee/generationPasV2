@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {View, Text, StyleSheet, Pressable, SafeAreaView, FlatList} from 'react-native'
+import {View, Text, StyleSheet, Pressable, SafeAreaView, FlatList, Dimensions} from 'react-native'
 
 import {PAN} from './poleAddNote'
 import {LD2} from './listData2.0'
@@ -9,21 +9,33 @@ const title1 = 'add element'
 const title2 = 'hide element'
 
 export const AN = ({list}) => {
+    const [genPas, setGenPas] = useState('')
     const [editCheck, setEditCheck] = useState(false)
     const [shouldShow, setShouldShow] = useState(false)
     const [value, setValue] = useState([])
     const [key, setKey] = useState('')
 
+
     const fadeInElement = () => {
-        alert(list.name)
+        setGenPas(list)
         setShouldShow(!shouldShow)
+
     }
+
     const takeValue = (note) => {
-        setValue(lastNote => [{
-            id: Date.now().toString(),
-            name: note.name,
-            password: note.password
-        }, ...lastNote])
+        if (note.password){
+            setValue(lastNote => [{
+                id: Date.now().toString(),
+                name: note.name,
+                password: note.password
+            }, ...lastNote])
+        } else {
+            setValue(lastNote => [{
+                id: Date.now().toString(),
+                name: note.name,
+                password: note.genPas
+            }, ...lastNote])
+        }
     }
 
     const deleteItem = (key) => {
@@ -45,6 +57,10 @@ export const AN = ({list}) => {
         setEditCheck(true)
     }
 
+    const close = (ck) => {
+        setEditCheck(ck)
+    }
+
     return (
         <SafeAreaView style={styles.allPole}>
             <View style={styles.container}>
@@ -62,7 +78,7 @@ export const AN = ({list}) => {
                     )
                 }
                 {
-                    !editCheck ? (shouldShow ? (<PAN style={styles.pole} list={list} onSubmit={takeValue}/>) : null) : (<EditNote note={value.id} onSubmit={updateValue}/>)
+                    !editCheck ? (shouldShow ? (<PAN style={styles.pole} list={genPas} onSubmit={takeValue} />) : null) : (<EditNote note={value.id} onSubmit={updateValue} sendClose={close}/>)
                 }
             </View>
             <View>
@@ -83,6 +99,7 @@ export const AN = ({list}) => {
 }
 const styles = StyleSheet.create({
     allPole: {
+
         justifyContent: "space-between",
         height: '90%',
     },

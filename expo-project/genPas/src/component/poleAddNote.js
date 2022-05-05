@@ -2,13 +2,15 @@ import React, {useState} from 'react'
 import {View, Text, StyleSheet, Pressable, TextInput} from 'react-native'
 
 
-export const PAN = ({onSubmit}) => {
+export const PAN = ({onSubmit, list}) => {
     const title = 'create'
+
+    const [genPas, setGenPas] = useState(list.toString())
     const [name, setName] = useState('')
     const [password, setPassword] = useState('')
 
     const checkTextInput = () => {
-        if(!name.trim() || !password.trim()) {
+        if(!name.trim() || !password.trim() && genPas === '') {
             alert('input fields must not be empty')
             return;
         }
@@ -18,9 +20,13 @@ export const PAN = ({onSubmit}) => {
     }
 
     const pressHandler = () => {
-        onSubmit({name, password})
-        setName('')
-        setPassword('')
+        if(password === '') {
+            onSubmit({name, genPas})
+        } else
+            onSubmit({name, password})
+        setName(name)
+        setPassword(password)
+        setGenPas('пароль')
     }
 
     return (
@@ -38,7 +44,7 @@ export const PAN = ({onSubmit}) => {
                         value={name}
                     />
                     <TextInput style={styles.inp}
-                        placeholder={"пароль"}
+                        placeholder={(genPas === '') ? "пароль" : genPas}
                         onChangeText={password => setPassword(password)}
                         value={password}
                     />

@@ -1,8 +1,9 @@
 import React, {useState} from 'react'
 import {View, Text, StyleSheet, Pressable, TextInput} from 'react-native'
+import {Icon} from "@rneui/themed";
+// import Prompt from 'react-native-prompt';
 
-
-export const EditNote = ({onSubmit}) => {
+export const EditNote = ({onSubmit, sendClose}) => {
     const title = 'update'
     const [name, setName] = useState('')
     const [password, setPassword] = useState('')
@@ -10,7 +11,7 @@ export const EditNote = ({onSubmit}) => {
 
     const checkTextInput = () => {
         if(!name.trim() || !password.trim()) {
-            alert('are you want cansel update?')
+            alert('input fields must not be empty')
             return;
         }
         else {
@@ -20,6 +21,10 @@ export const EditNote = ({onSubmit}) => {
 
     const pressHandler = () => {
         onSubmit({name, password})
+    }
+
+    const close = () => {
+        sendClose(false)
     }
 
     return (
@@ -42,6 +47,14 @@ export const EditNote = ({onSubmit}) => {
                                value={password}
                     />
                 </View>
+                <Pressable style={styles.icon} onPress={close}>
+                    <Icon
+                        name='close'
+                        type='evilicon'
+                        color='#3eff00'
+                        size={27}
+                    />
+                </Pressable>
             </View>
         </View>
     )
@@ -83,5 +96,8 @@ const styles = StyleSheet.create({
         borderStyle: 'solid',
         borderWidth: 0.5,
         borderColor: '#3eff00'
+    },
+    icon: {
+        justifyContent: "center"
     }
 });
