@@ -10,19 +10,16 @@ import {AN} from './src/component/addNote'
 
 const App = () => {
     const [pas, setPas] = useState([]);
-
     const addPas = (pas) => {
-        setPas(lastPas => [...lastPas, {
-            id: Date.now().toString(),
-            password: pas,
-        }])
+        setPas(pas)
     }
 
     return (
         <View style={styles.allApp}>
             <View style={styles.pageContainer}>
-                <GPL onSubmit={addPas}/>
-                <AN list={pas}/>
+                <GPL onSubmit={addPas} />
+                <AN list={pas} />
+
                 {/*<View>*/}
                 {/*    {*/}
                 {/*        pas.map(pas => <LD list={pas} key={pas.id}/>)*/}
@@ -42,7 +39,7 @@ const styles = StyleSheet.create({
     pageContainer: {
         marginTop: 100,
         paddingTop: 10,
-        borderColor: '#ff0000',
+        // borderColor: '#ff0000',
         borderTopWidth: 1,
         borderStyle: "solid",
 

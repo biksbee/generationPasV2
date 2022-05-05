@@ -2,37 +2,37 @@ import React, {useState} from 'react'
 import {View, Text, StyleSheet, Pressable, TextInput} from 'react-native'
 
 
-export const PAN = ({list, onSubmit, editData}) => {
+export const PAN = ({onSubmit, list}) => {
     const title = 'create'
+
+    const [genPas, setGenPas] = useState(list.toString())
     const [name, setName] = useState('')
     const [password, setPassword] = useState('')
 
-    const auto = (list) => {
-        setPassword(list)
+    const checkTextInput = () => {
+        if(!name.trim() || !password.trim() && genPas === '') {
+            alert('input fields must not be empty')
+            return;
+        }
+        else {
+            pressHandler()
+        }
     }
 
-
-    // const checkTextInput = () => {
-    //     if(!name.trim() || !password.trim()) {
-    //         alert('input fields must not be empty')
-    //         return;
-    //     }
-    //     else {
-    //         pressHandler()
-    //     }
-    // }
-
     const pressHandler = () => {
+        if(password === '') {
+            onSubmit({name, genPas})
+        } else
+            onSubmit({name, password})
         setName(name)
-        onSubmit({name, password})
-        setName('')
-        setPassword('')
+        setPassword(password)
+        setGenPas('пароль')
     }
 
     return (
         <View>
             <View style={styles.newNote}>
-                <Pressable style={styles.note_btn} onPress={pressHandler}>
+                <Pressable style={styles.note_btn} onPress={checkTextInput}>
                     <Text style={styles.note_btn_text}>
                         {title}
                     </Text>
@@ -44,7 +44,7 @@ export const PAN = ({list, onSubmit, editData}) => {
                         value={name}
                     />
                     <TextInput style={styles.inp}
-                        placeholder={"пароль"}
+                        placeholder={(genPas === '') ? "пароль" : genPas}
                         onChangeText={password => setPassword(password)}
                         value={password}
                     />

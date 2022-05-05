@@ -8,10 +8,9 @@ import {PAN} from "./poleAddNote";
 
 
 
-export const LD2 = ({list, onSubmit, sendEditData}) => {
+export const LD2 = ({list, onSubmit, send}) => {
 
     const [shouldShow, setShouldShow] = useState(false)
-
     const onRemove = () => {
         onSubmit(list.id)
     }
@@ -23,13 +22,10 @@ export const LD2 = ({list, onSubmit, sendEditData}) => {
     const takeValue = (num) => {
         if(num === 1){
             setShouldShow(!shouldShow)
-        } else if(num === 2){
-            const editObj = {
-                label: "update",
-                name: list.name,
-                password: list.password
-            }
-            sendEditData(editObj)
+        } else if(num === 2) {
+            const sendEditData = list.id
+            // const sendEditData = list.name
+            send(sendEditData)
         } else if(num === 3){
             const copy = Clipboard.setString(list.password);
         } else if(num === 4){
@@ -55,7 +51,7 @@ export const LD2 = ({list, onSubmit, sendEditData}) => {
                     }
                 </View>
                 <Text style={styles.password}>
-                    {list.password}
+                    #{list.password}
                 </Text>
             </View>
             <Pressable style={styles.icon} onPress={onRemove}>
@@ -105,10 +101,8 @@ const styles = StyleSheet.create({
 
     },
     icon: {
+
         justifyContent: "center",
-        borderWidth: 1,
-        borderColor: "#3eff00",
-        borderRadius: 5,
     },
 });
 

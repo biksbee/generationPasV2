@@ -26,6 +26,7 @@ export const AdditionallyProperty = ({onSubmit}) => {
                     name='pencil'
                     type='evilicon'
                     color='#3eff00'
+                    size={27}
                 />
             </Pressable>
             <Pressable style={styles.icon} onPress={copy}>
@@ -33,6 +34,7 @@ export const AdditionallyProperty = ({onSubmit}) => {
                     name='link'
                     type='evilicon'
                     color='#3eff00'
+                    size={27}
                 />
             </Pressable>
             <Pressable style={styles.icon} onPress={close}>
@@ -40,15 +42,16 @@ export const AdditionallyProperty = ({onSubmit}) => {
                     name='close'
                     type='evilicon'
                     color='#3eff00'
+                    size={27}
                 />
             </Pressable>
-            <Pressable style={styles.icon} onPress={complete}>
-                <Icon
-                    name='check'
-                    type='evilicon'
-                    color='#3eff00'
-                />
-            </Pressable>
+            {/*<Pressable style={styles.icon} onPress={complete}>*/}
+            {/*    <Icon*/}
+            {/*        name='check'*/}
+            {/*        type='evilicon'*/}
+            {/*        color='#3eff00'*/}
+            {/*    />*/}
+            {/*</Pressable>*/}
         </View>
     )
 }

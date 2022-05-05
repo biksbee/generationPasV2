@@ -1,47 +1,64 @@
-import React, {useState, useWindowDimensions} from 'react'
-import {View, Text, StyleSheet, Pressable, SafeAreaView, FlatList} from 'react-native'
+import React, {useState} from 'react'
+import {View, Text, StyleSheet, Pressable, SafeAreaView, FlatList, Dimensions} from 'react-native'
 
 import {PAN} from './poleAddNote'
 import {LD2} from './listData2.0'
 import {EditNote} from './EditNote'
-import {MyIcon} from "./nameList";
-import position from "react-native-web/dist/exports/Touchable/Position";
-import {Icon} from "@rneui/themed";
-
 
 const title1 = 'add element'
 const title2 = 'hide element'
 
 export const AN = ({list}) => {
+    const [genPas, setGenPas] = useState('')
     const [editCheck, setEditCheck] = useState(false)
     const [shouldShow, setShouldShow] = useState(false)
     const [value, setValue] = useState([])
+    const [key, setKey] = useState('')
+
 
     const fadeInElement = () => {
+        setGenPas(list)
         setShouldShow(!shouldShow)
+
     }
+
     const takeValue = (note) => {
-        setValue(lastNote => [{
-            id: Date.now().toString(),
-            name: note.name,
-            password: note.password
-        }, ...lastNote])
+        if (note.password){
+            setValue(lastNote => [{
+                id: Date.now().toString(),
+                name: note.name,
+                password: note.password
+            }, ...lastNote])
+        } else {
+            setValue(lastNote => [{
+                id: Date.now().toString(),
+                name: note.name,
+                password: note.genPas
+            }, ...lastNote])
+        }
     }
+
     const deleteItem = (key) => {
         const itemDel = [...value]
+        // setValue(itemDel.splice(key, 1))
         setValue(itemDel.filter(item => item.id !== key))
     }
-    // const updateValue = (value) => {
-    //     setValue(lastNote => [{
-    //         id: Date.now().toString(),
-    //         name: value.name,
-    //         password: value.password
-    //     }, ...lastNote])
-    // }
 
+    const updateValue = (updateValue) => {
+        deleteItem(key)
+        takeValue(updateValue)
 
-    const sendEditData = (editData) => {
         setEditCheck(!editCheck)
+        setShouldShow(!shouldShow)
+    }
+
+    const sendEditData = (note) => {
+        setKey(note)
+        setEditCheck(true)
+    }
+
+    const close = (ck) => {
+        setEditCheck(ck)
     }
 
     return (
@@ -61,7 +78,7 @@ export const AN = ({list}) => {
                     )
                 }
                 {
-                    !editCheck ? (shouldShow ? (<PAN style={styles.pole} list={list} onSubmit={takeValue}/>) : null) : (<EditNote />)
+                    !editCheck ? (shouldShow ? (<PAN style={styles.pole} list={genPas} onSubmit={takeValue} />) : null) : (<EditNote note={value.id} onSubmit={updateValue} sendClose={close}/>)
                 }
             </View>
             <View>
@@ -72,7 +89,7 @@ export const AN = ({list}) => {
                     keyExtractor={item => item.id}
                     renderItem={({item}) => (
                         // <Text style={styles.i}>{item.name}</Text>
-                        <LD2 list={item} onSubmit={deleteItem} sendEditData={sendEditData} />
+                        <LD2 list={item} onSubmit={deleteItem} send={sendEditData} />
                     )}
                 />
                 {/*{value.map(value => <LD2 list={item} key={value.id}/>)}*/}
@@ -82,6 +99,7 @@ export const AN = ({list}) => {
 }
 const styles = StyleSheet.create({
     allPole: {
+
         justifyContent: "space-between",
         height: '90%',
     },

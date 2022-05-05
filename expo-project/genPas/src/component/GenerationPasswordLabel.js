@@ -1,37 +1,77 @@
 import React, {useState} from 'react'
-import {View, StyleSheet, Text, TextInput, Pressable, Clipboard} from 'react-native'
+import {View, StyleSheet, Text, TextInput, Pressable, Clipboard, Dimensions} from 'react-native'
+import {Icon} from "@rneui/themed";
+
+const window = Dimensions.get("window");
 
 export const GPL = ({onSubmit}) => {
-    const title = 'gen';
-    const [value, setValue] = useState('')
+    const placeholder = "Введите пароль"
+    const gen = 'gen'
+    const copy = 'copy'
 
-    const pressHandler = () => {
-        // Clipboard.setString(value.password);
-        const a = []
-        for (let i = value.length, k=0; i>=0; i--, k++){
-            a[k] = value[i]
-        }
-        a.toString()
-        alert(a)
-        // a.toString()
-        // setValue()
+    const [value, setValue] = useState('')
+    const [shouldShow, setShouldShow] = useState(false)
+
+    const changePas = () => {
+        let arr = Array.from(value);
+        let a = arr.concat(Array.from(value))
+        a = a.toString()
+        setValue(a)
+
         onSubmit(a)
-        //в дальнейшем сюда будет засыпаться измененный пароль
     }
 
+    const pressHandler = () => {
+        if(value === '') {
+            setValue('')
+        } else {
+            setShouldShow(true)
+            changePas()
+            //в дальнейшем сюда будет засыпаться измененный пароль
+        }
+
+    }
+
+    const close = () => {
+        setShouldShow(false)
+        setValue('')
+        onSubmit('')
+    }
+
+    const copyPas = () => {
+        setShouldShow(false)
+        const copy = Clipboard.setString(value);
+        setValue('')
+        close()
+    }
 
     return (
         <View style={styles.label}>
-            <Pressable style={styles.btn} onPress={pressHandler}>
-                <Text style={styles.btn_text} >
-                    {title}
-                </Text>
-            </Pressable>
+            { !shouldShow ?
+                <Pressable style={styles.btn} onPress={pressHandler}>
+                    <Text style={styles.btn_text}>
+                        {gen}
+                    </Text>
+                </Pressable> :
+                <Pressable style={styles.btn} onPress={copyPas}>
+                    <Text style={styles.btn_text}>
+                        {copy}
+                    </Text>
+                </Pressable>
+            }
             <TextInput style={styles.inp}
-                onChangeText={text => setValue(text)} //onChangeText={setValue}
+                onChangeText={value => setValue(value)} //onChangeText={setValue}
                 value={value}
-                placeholder={"Введите пароль "}
+                placeholder={placeholder}
             />
+            <Pressable style={styles.icon} onPress={close}>
+                <Icon
+                    name='close'
+                    type='evilicon'
+                    color='#3eff00'
+                    size={27}
+                />
+            </Pressable>
         </View>
     )
 }
@@ -40,12 +80,15 @@ const styles = StyleSheet.create({
     label: {
         marginBottom: 20,
         flexDirection: 'row',
-        justifyContent: 'flex-end',
+        justifyContent: "center",
         paddingBottom: 20,
         borderBottomWidth: 2,
         borderStyle: "solid",
         borderColor: '#3eff00',
 
+    },
+    buttons: {
+        width: '20%',
     },
     btn: {
         width: '20%',
@@ -62,11 +105,14 @@ const styles = StyleSheet.create({
         color: '#3eff00',
     },
     inp: {
+        width: window.width-150, //?
         paddingHorizontal: 10,
         marginHorizontal: 15,
-        width: '70%',
         borderStyle: 'solid',
         borderBottomWidth: 0.5,
         borderColor: '#3eff00'
     },
+    icon: {
+        justifyContent: "center"
+    }
 })

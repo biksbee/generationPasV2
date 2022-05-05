@@ -1,11 +1,12 @@
 import React, {useState} from 'react'
 import {View, Text, StyleSheet, Pressable, TextInput} from 'react-native'
+import {Icon} from "@rneui/themed";
+// import Prompt from 'react-native-prompt';
 
-
-export const EditNote = ({onSubmit, editData}) => {
+export const EditNote = ({onSubmit, sendClose}) => {
     const title = 'update'
-    const [name, setName] = useState(editData.name)
-    const [password, setPassword] = useState(editData.password)
+    const [name, setName] = useState('')
+    const [password, setPassword] = useState('')
 
 
     const checkTextInput = () => {
@@ -20,8 +21,10 @@ export const EditNote = ({onSubmit, editData}) => {
 
     const pressHandler = () => {
         onSubmit({name, password})
-        // setName('')
-        // setPassword('')
+    }
+
+    const close = () => {
+        sendClose(false)
     }
 
     return (
@@ -44,6 +47,14 @@ export const EditNote = ({onSubmit, editData}) => {
                                value={password}
                     />
                 </View>
+                <Pressable style={styles.icon} onPress={close}>
+                    <Icon
+                        name='close'
+                        type='evilicon'
+                        color='#3eff00'
+                        size={27}
+                    />
+                </Pressable>
             </View>
         </View>
     )
@@ -85,5 +96,8 @@ const styles = StyleSheet.create({
         borderStyle: 'solid',
         borderWidth: 0.5,
         borderColor: '#3eff00'
+    },
+    icon: {
+        justifyContent: "center"
     }
 });
